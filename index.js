@@ -3,13 +3,13 @@ const bodyParser = require('body-parser');
 const uuid = require('uuid');
 const DF = require("./dfservice");
 const twilio = require('./twilio');
+const app = express();
 
 const port = 3000;
+const sessionIds = new Map();
 
-const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-const sessionIds = new Map();
 
 app.post('/', async (req, res) => {
     const sender = req.body.From;
@@ -30,4 +30,5 @@ function setSessionAndUser(senderID) {
         sessionIds.set(senderID, uuid.v1());
     }
 }
+
 app.listen(port, () => console.log(`Magic on ${port}`));
